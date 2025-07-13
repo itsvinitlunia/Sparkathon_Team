@@ -1,66 +1,85 @@
-import { View, Text, Pressable, ScrollView } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function HomeScreen() {
-  const router = useRouter();
+const Home = () => {
+  const stats = [
+    { title: 'Total Items', value: '1,247', color: 'bg-blue-500' },
+    { title: 'At Risk', value: '23', color: 'bg-orange-500' },
+    { title: 'Expired', value: '5', color: 'bg-red-500' },
+    { title: 'Saved', value: '89%', color: 'bg-green-500' }
+  ];
+
+  const alerts = [
+    { product: 'Milk', days: '2 days', color: 'bg-orange-100 text-orange-800' },
+    { product: 'Bread', days: '1 day', color: 'bg-red-100 text-red-800' },
+    { product: 'Yogurt', days: '3 days', color: 'bg-yellow-100 text-yellow-800' }
+  ];
 
   return (
-    <ScrollView className="flex-1 bg-white px-6 pt-16">
-      <View className="items-center mb-8">
-        <Text className="text-5xl font-extrabold text-blue-800 mb-2">🛒 ShelfGuard</Text>
-        <Text className="text-center text-lg text-gray-700 font-medium">
-          Smart Inventory Waste Prevention for Store Managers
-        </Text>
+    <ScrollView className="flex-1 bg-gray-50">
+      {/* Header */}
+      <View className="bg-purple-600 px-6 py-8 pt-12">
+        <Text className="text-white text-2xl font-bold">ShelfGuard</Text>
+        <Text className="text-blue-100 mt-1">Smart Inventory Management</Text>
       </View>
 
-      <View className="mb-10">
-        <Text className="text-base text-gray-600 mb-4 leading-6">
-          ShelfGuard is your AI-powered assistant for smarter inventory handling.
-          It helps store managers track perishable products, predict spoilage risk, and
-          suggest actions like redistribution, discounts, or donation.
-        </Text>
-        <Text className="text-base text-gray-600 leading-6">
-          Our goal is to reduce food waste, optimize logistics, and promote sustainability
-          across retail chains. Built with predictive intelligence, ShelfGuard recommends
-          optimal delivery routes based on expiration timelines and demand across nearby locations.
-        </Text>
+      {/* Stats */}
+      <View className="px-6 py-6">
+        <View className="flex-row flex-wrap justify-between">
+          {stats.map((stat, index) => (
+            <View key={index} className={`${stat.color} rounded-xl p-4 w-[48%] mb-3`}>
+              <Text className="text-white text-2xl font-bold">{stat.value}</Text>
+              <Text className="text-white opacity-90 text-sm">{stat.title}</Text>
+            </View>
+          ))}
+        </View>
       </View>
 
-      <View className="space-y-4 mb-10">
-        <Pressable
-          className="bg-red-600 px-6 py-4 rounded-xl shadow w-full"
-          onPress={() => router.push('/products/mandar')}
-        >
-          <Text className="text-white text-center text-base font-semibold">📦 View Products</Text>
-        </Pressable>
-
-        <Pressable
-          className="bg-green-600 px-6 py-4 rounded-xl shadow w-full"
-          onPress={() => router.push('/profile')}
-        >
-          <Text className="text-white text-center text-base font-semibold">📊 View Analytics</Text>
-        </Pressable>
+      {/* Quick Actions */}
+      <View className="px-6 pb-6">
+        <Text className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</Text>
+        <View className="flex-row justify-between">
+          <TouchableOpacity className="bg-white rounded-xl p-4 flex-1 mr-2 items-center shadow-sm">
+            <Ionicons name="scan-outline" size={24} color="#3B82F6" />
+            <Text className="text-gray-800 mt-2 font-medium">Scan</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="bg-white rounded-xl p-4 flex-1 ml-2 items-center shadow-sm">
+            <Ionicons name="add-outline" size={24} color="#10B981" />
+            <Text className="text-gray-800 mt-2 font-medium">Add Item</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <View className="flex-row justify-between">
-        <Link
-          href="/login"
-          className="bg-gray-100 px-6 py-3 rounded-lg border border-gray-300 shadow"
-        >
-          <Text className="text-gray-800 text-base font-medium text-center">Login</Text>
-        </Link>
-
-        <Link
-          href="/signup"
-          className="bg-blue-700 px-6 py-3 rounded-lg shadow"
-        >
-          <Text className="text-white text-base font-medium text-center">Sign Up</Text>
-        </Link>
+      {/* Recent Alerts */}
+      <View className="px-6 pb-6">
+        <Text className="text-lg font-semibold text-gray-800 mb-4">Expiring Soon</Text>
+        <View className="bg-white rounded-xl shadow-sm">
+          {alerts.map((alert, index) => (
+            <View key={index} className="p-4 flex-row justify-between items-center">
+              <Text className="text-gray-800 font-medium">{alert.product}</Text>
+              <View className={`${alert.color} px-3 py-1 rounded-full`}>
+                <Text className="text-xs font-medium">{alert.days}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
       </View>
 
-      <View className="mt-12">
-        <Text className="text-center text-sm text-gray-400">© 2025 ShelfGuard Team</Text>
+      {/* AI Suggestion */}
+      <View className="px-6 pb-8">
+        <View className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl p-4">
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="bulb-outline" size={20} color="white" />
+            <Text className="text-white font-medium ml-2">AI Suggestion</Text>
+          </View>
+          <Text className="text-white text-sm">
+            Move 15 milk units to Store B to reduce waste by 12%
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
-}
+};
+
+export default Home;
